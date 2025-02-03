@@ -3,43 +3,482 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Quiz App</title>
-  <link rel="stylesheet" href="style.css">
+  <title> The Quiz App</title>
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --secondary-color: #1e40af;
+      --background: #f8fafc;
+      --text-color: #1e293b;
+      --correct: #22c55e;
+      --incorrect: #ef4444;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: var(--background);
+      color: var(--text-color);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .home-page {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .topic-card {
+      padding: 2rem;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border: 2px solid transparent;
+    }
+
+    .topic-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+      border-color: var(--primary-color);
+    }
+
+    .topic-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1rem;
+    }
+
+    .quiz-container {
+      position: relative;
+    }
+
+    .hide {
+      display: none;
+    }
+
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .button {
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    .button:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+
+    .button:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .quiz-controls {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .question {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .option {
+      padding: 0.8rem;
+      border-radius: 8px;
+      border: 2px solid #e2e8f0;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      background: white;
+    }
+
+    .option:hover {
+      background: #f8fafc;
+      border-color: #94a3b8;
+    }
+
+    .option.correct {
+      background: #dcfce7 !important;
+      border-color: var(--correct) !important;
+    }
+
+    .option.incorrect {
+      background: #fee2e2 !important;
+      border-color: var(--incorrect) !important;
+    }
+
+    .option.selected {
+      border-color: var(--primary-color) !important;
+    }
+
+    .timer-container {
+      margin-bottom: 2rem;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 0.5rem;
+    }
+
+    .progress {
+      height: 100%;
+      background: var(--primary-color);
+      transition: width 0.3s ease;
+    }
+
+    .result {
+      text-align: center;
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .unanswered {
+      color: #ef4444;
+      margin-top: 1rem;
+    }
+  </style>
 </head>
 <body>
   <main class="container">
-    <!-- Home Page -->
     <section id="homePage" class="home-page">
       <h1>Choose Your Quiz</h1>
       <div class="topic-grid">
-        <div class="topic-card" onclick="startQuiz('html')">
-          <img src="/Images/html.png" alt="HTML" class="topic-icon">
+        <div class="topic-card" onclick="startQuiz('html')" role="button">
+          <img src="/Images/html.png" alt="HTML" class="topic-icon" width="80" height="80">
           <h2>HTML Quiz</h2>
         </div>
-        <div class="topic-card" onclick="startQuiz('css')">
-          <img src="/Images/css.png" alt="CSS" class="topic-icon">
+        <div class="topic-card" onclick="startQuiz('css')" role="button">
+          <img src="/Images/css.png" alt="CSS" class="topic-icon" width="80" height="80">
           <h2>CSS Quiz</h2>
         </div>
-        <div class="topic-card" onclick="startQuiz('javascript')">
-          <img src="/Images/js.png" alt="javascript picture" class="topic-icon">
+        <div class="topic-card" onclick="startQuiz('javascript')" role="button">
+          <img src="/Images/js.png" alt="JavaScript" class="topic-icon" width="80" height="80">
           <h2>JavaScript Quiz</h2>
         </div>
       </div>
     </section>
-    <!-- Quiz Container -->
+
     <section id="quizContainer" class="quiz-container hide">
       <header class="quiz-header">
         <h1 id="quizTitle">Quiz</h1>
         <button id="backButton" class="button" onclick="returnToHome()">← Back</button>
       </header>
-            <div id="quiz"></div>
+      <div class="timer-container">
+        <div class="timer">Time Left: <span id="time">10</span>s</div>
+        <div class="progress-bar">
+          <div class="progress" id="progress"></div>
+        </div>
+      </div>
+      <div id="quiz"></div>
+      <div class="navigation">
+        <button id="prevBtn" class="button" onclick="previousQuestion()" disabled>Previous</button>
+        <button id="nextBtn" class="button" onclick="nextQuestion()">Next</button>
+      </div>
       <div id="result" class="result"></div>
-            <div class="quiz-controls">
-        <button id="submit" class="button">Submit</button>
+      <div class="quiz-controls">
+        <button id="submit" class="button hide">Submit</button>
         <button id="retry" class="button hide">Retry</button>
-        <button id="showAnswer" class="button hide">Show Answers</button>
       </div>
     </section>
   </main>
-  </body>
+
+  <script>
+    const quizData = {
+      html: {
+        title: "HTML Quiz",
+        questions: [
+          {
+            question: "What does HTML stand for?",
+            options: [
+              "Hyper Text Markup Language",
+              "Home Tool Markup Language",
+              "Hyperlinks and Text Markup Language",
+              "Hyper Text Makeup Language"
+            ],
+            correct: 0
+          },
+          {
+            question: "Which tag is used to create a hyperlink?",
+            options: ["<link>", "<a>", "<href>", "<hyperlink>"],
+            correct: 1
+          },
+          {
+            question: "What is the correct DOCTYPE declaration for HTML5?",
+            options: [
+              "<!DOCTYPE HTML>",
+              "<!DOCTYPE HTML5>",
+              "<!DOCTYPE html>",
+              "<!DOCTYPE html5>"
+            ],
+            correct: 2
+          }
+        ]
+      },
+      css: {
+        title: "CSS Quiz",
+        questions: [
+          {
+            question: "What does CSS stand for?",
+            options: [
+              "Computer Style Sheets",
+              "Creative Style Sheets",
+              "Cascading Style Sheets",
+              "Colorful Style Sheets"
+            ],
+            correct: 2
+          },
+          {
+            question: "Which property is used to change the background color?",
+            options: ["color", "bgcolor", "background-color", "background"],
+            correct: 2
+          },
+          {
+            question: "Which CSS property controls text alignment?",
+            options: ["text-align", "align-text", "font-align", "text-position"],
+            correct: 0
+          }
+        ]
+      },
+      javascript: {
+        title: "JavaScript Quiz",
+        questions: [
+          {
+            question: "Which keyword is used to declare a variable in ES6?",
+            options: ["var", "let", "const", "all of the above"],
+            correct: 3
+          },
+          {
+            question: "What is the output of 'console.log(typeof null)'?",
+            options: ["object", "null", "undefined", "number"],
+            correct: 0
+          },
+          {
+            question: "Which method creates a new array with filtered elements?",
+            options: ["map()", "filter()", "reduce()", "forEach()"],
+            correct: 1
+          }
+        ]
+      }
+    };
+
+    let currentQuiz = null;
+    let currentTopic = null;
+    let currentQuestion = 0;
+    let score = 0;
+    let timeLeft = 10;
+    let timerId = null;
+    let userAnswers = [];
+
+    const homePage = document.getElementById('homePage');
+    const quizContainer = document.getElementById('quizContainer');
+    const quizTitle = document.getElementById('quizTitle');
+    const quizElement = document.getElementById('quiz');
+    const timeElement = document.getElementById('time');
+    const progressBar = document.getElementById('progress');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const submitBtn = document.getElementById('submit');
+    const retryBtn = document.getElementById('retry');
+    const resultElement = document.getElementById('result');
+
+    function startQuiz(topic) {
+      currentTopic = topic;
+      currentQuiz = quizData[topic];
+      currentQuestion = 0;
+      score = 0;
+      userAnswers = [];
+      
+      quizTitle.textContent = currentQuiz.title;
+      homePage.classList.add('hide');
+      quizContainer.classList.remove('hide');
+      
+      resetTimer();
+      displayQuestion();
+      updateNavigation();
+    }
+
+    function returnToHome() {
+      clearInterval(timerId);
+      quizContainer.classList.add('hide');
+      homePage.classList.remove('hide');
+    }
+
+    function displayQuestion() {
+      const question = currentQuiz.questions[currentQuestion];
+      quizElement.innerHTML = `
+        <div class="question">
+          <h3>${currentQuestion + 1}. ${question.question}</h3>
+          <div class="options">
+            ${question.options.map((option, index) => `
+              <div class="option" onclick="selectOption(${index})" role="button">
+                ${option}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+      
+      const selectedAnswer = userAnswers[currentQuestion];
+      if (typeof selectedAnswer !== 'undefined') {
+        highlightSelected(selectedAnswer);
+      }
+      startTimer();
+      updateProgressBar();
+    }
+
+    function selectOption(selectedIndex) {
+      const options = document.querySelectorAll('.option');
+      options.forEach(option => option.classList.remove('selected'));
+      options[selectedIndex].classList.add('selected');
+      userAnswers[currentQuestion] = selectedIndex;
+      updateNavigation();
+    }
+
+    function updateNavigation() {
+      prevBtn.disabled = currentQuestion === 0;
+      nextBtn.disabled = typeof userAnswers[currentQuestion] === 'undefined';
+      submitBtn.classList.toggle('hide', currentQuestion !== currentQuiz.questions.length - 1);
+    }
+
+    function nextQuestion() {
+      if (currentQuestion < currentQuiz.questions.length - 1) {
+        currentQuestion++;
+        resetTimer();
+        displayQuestion();
+      }
+    }
+
+    function previousQuestion() {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        resetTimer();
+        displayQuestion();
+      }
+    }
+
+    function startTimer() {
+      timeLeft = 10;
+      timeElement.textContent = timeLeft;
+      timerId = setInterval(() => {
+        timeLeft--;
+        timeElement.textContent = timeLeft;
+        updateProgressBar();
+        if (timeLeft <= 0) {
+          clearInterval(timerId);
+          handleTimeout();
+        }
+      }, 1000);
+    }
+
+    function resetTimer() {
+      clearInterval(timerId);
+      timeLeft = 10;
+      timeElement.textContent = timeLeft;
+      updateProgressBar();
+    }
+
+    function updateProgressBar() {
+      const progress = (timeLeft / 10) * 100;
+      progressBar.style.width = `${progress}%`;
+    }
+
+    function handleTimeout() {
+      userAnswers[currentQuestion] = -1;
+      if (currentQuestion < currentQuiz.questions.length - 1) {
+        nextQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      clearInterval(timerId);
+      score = currentQuiz.questions.reduce((acc, question, index) => {
+        return acc + (userAnswers[index] === question.correct ? 1 : 0);
+      }, 0);
+
+      quizElement.innerHTML = currentQuiz.questions.map((question, index) => {
+        const userAnswer = userAnswers[index];
+        const isCorrect = userAnswer === question.correct;
+        return `
+          <div class="question">
+            <h3>${index + 1}. ${question.question}</h3>
+            <div class="options">
+              ${question.options.map((option, optionIndex) => {
+                let classes = 'option';
+                if (optionIndex === question.correct) classes += ' correct';
+                if (userAnswer === optionIndex && !isCorrect) classes += ' incorrect';
+                if (userAnswer === -1 && optionIndex === question.correct) classes += ' correct';
+                return `<div class="${classes}">${option}</div>`;
+              }).join('')}
+            </div>
+            ${userAnswer === -1 ? '<p class="unanswered">Time expired for this question</p>' : ''}
+          </div>
+        `;
+      }).join('');
+
+      resultElement.innerHTML = `
+        <h3>Your Score: ${score}/${currentQuiz.questions.length}</h3>
+        <p>${score === currentQuiz.questions.length ? '🎉 Perfect Score!' : ''}</p>
+      `;
+
+      submitBtn.classList.add('hide');
+      retryBtn.classList.remove('hide');
+      nextBtn.classList.add('hide');
+      prevBtn.classList.add('hide');
+    }
+
+    submitBtn.addEventListener('click', showResults);
+    retryBtn.addEventListener('click', () => startQuiz(currentTopic));
+  </script>
+</body>
 </html>
