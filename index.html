@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Quiz App</title>
+  <link rel="stylesheet" href="">
+</head>
+<body>
+  <main class="container">
+    <!-- Home Page -->
+    <section id="homePage" class="home-page">
+      <h1>Choose Your Quiz</h1>
+      <div class="topic-grid">
+        <div class="topic-card" onclick="startQuiz('html')">
+          <img src="/Images/html.png" alt="HTML" class="topic-icon">
+          <h2>HTML Quiz</h2>
+        </div>
+        <div class="topic-card" onclick="startQuiz('css')">
+          <img src="/Images/css.png" alt="CSS" class="topic-icon">
+          <h2>CSS Quiz</h2>
+        </div>
+        <div class="topic-card" onclick="startQuiz('javascript')">
+          <img src="/Images/js.png" alt="javascript picture" class="topic-icon">
+          <h2>JavaScript Quiz</h2>
+        </div>
+      </div>
+    </section>
+    <!-- Quiz Container -->
+    <section id="quizContainer" class="quiz-container hide">
+      <header class="quiz-header">
+        <h1 id="quizTitle">Quiz</h1>
+        <button id="backButton" class="button" onclick="returnToHome()">← Back</button>
+      </header>
+            <div id="quiz"></div>
+      <div id="result" class="result"></div>
+            <div class="quiz-controls">
+        <button id="submit" class="button">Submit</button>
+        <button id="retry" class="button hide">Retry</button>
+        <button id="showAnswer" class="button hide">Show Answers</button>
+      </div>
+    </section>
+  </main>
+  </body>
+</html>
