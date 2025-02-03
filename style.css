@@ -1,0 +1,67 @@
+:root {
+    --primary-color: #2563eb;
+    --secondary-color: #1e40af;
+    --background: #f8fafc;
+    --text-color: #1e293b;
+    --correct: #22c55e;
+    --incorrect: #ef4444;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--text-color);
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  /* Home Page Styles */
+  .home-page {
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .topic-card {
+    padding: 2rem;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 2px solid transparent;
+  }
+
+  .topic-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+    border-color: var(--primary-color);
+  }
+
+  .topic-card:focus-visible {
+    outline: none;
+    border-color: var(--primary-color);
+  }
+
+  .icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1rem;
+  }
